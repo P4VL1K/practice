@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import {TodoList} from "./TodoList";
+import {v1} from "uuid";
+
+
+
+export type ObjPropsType = {
+    id: string
+    name: string
+}
+
 
 function App() {
+
+    const [value, setValue] = useState('')
+
+    const [el,setEl] = useState<Array<ObjPropsType>>([
+        {id: v1(), name: "coca cola"},
+        {id: v1(), name: "fanta"},
+        {id: v1(), name: "sprite"},
+        {id: v1(), name: "mirinda"}
+    ])
+
+    const addElFunc = (name: string) => {
+        let addEl = {id: v1(), name: name}
+        let newEl = [addEl, ...el]
+        setEl(newEl)
+    }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TodoList el={el} value={value} setValue={setValue} addElFunc={addElFunc}/>
     </div>
   );
 }
